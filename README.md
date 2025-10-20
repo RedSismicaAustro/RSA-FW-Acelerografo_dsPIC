@@ -2,7 +2,8 @@
 
 Sistema de adquisición de datos sísmicos basado en microcontrolador **dsPIC33EP256MC202** para la Red Sísmica del Austro (RSA).
 
-> **⚠️ PROYECTO LEGACY:** Este es el firmware original del acelerógrafo RSA que utilizaba un microcontrolador dsPIC como intermediario entre el acelerómetro ADXL355 y la Raspberry Pi. El desarrollo activo se ha trasladado al proyecto [RSA-Acelerografo](../RSA-Acelerografo/) que elimina el dsPIC y conecta el sensor directamente a la RPi.
+> **⚠️ PROYECTO LEGACY:** Este repositorio contiene el firmware original del acelerógrafo RSA, donde un microcontrolador dsPIC actúa como intermediario entre el acelerómetro ADXL355 y una Raspberry Pi. Incluye los scripts en C necesarios para la comunicación entre ambos dispositivos.
+El software complementario para la gestión de archivos y comunicaciones, que se ejecuta en la Raspberry Pi, se ha trasladado al proyecto [RSA-Acelerografo](https://github.com/Red-Sismica-del-Austro/RSA-Acelerografo).
 
 ## Descripción
 
@@ -26,12 +27,14 @@ El sistema adquiere datos de aceleración triaxial (X, Y, Z) desde un aceleróme
                                      │  - Timer1    │
 ┌─────────────┐         SPI          │  - UART GPS  │         SPI
 │   DS3234    │────────────────────→ │  - SPI Slave │────────────────→ Raspberry Pi
-│     RTC     │                      │              │     (2506 bytes/s)
-└─────────────┘                      └──────────────┘
-                                           ↑
-┌─────────────┐      PPS (1 Hz)            │
-│  Módulo GPS │────────────────────────────┘
-└─────────────┘
+│     RTC     │────────────────────→ │              │     (2506 bytes/s)
+└─────────────┘      SQW (1Hz)       └──────────────┘
+                                           ↑ ↑
+┌─────────────┐         UART               │ │
+│    Módulo   │────────────────────────────┘ │
+│     GPS     │──────────────────────────────┘
+└─────────────┘      PPS (1Hz)
+          
 ```
 
 ## Formato de Datos Binarios
@@ -179,7 +182,7 @@ Usar el programador PICkit3 desde mikroC PRO o MPLAB IPE para cargar el archivo 
 
 ## Software para Raspberry Pi (Legacy)
 
-> **Nota:** Estos scripts son versiones antiguas. Las versiones actualizadas están en el proyecto [RSA-Acelerografo](../RSA-Acelerografo/).
+> **Nota:** Estos scripts son versiones antiguas. Las versiones actualizadas están en el proyecto [RSA-Acelerografo](https://github.com/Red-Sismica-del-Austro/RSA-Acelerografo).
 
 ### Instalación de Librerías
 
@@ -251,7 +254,7 @@ Este repositorio se mantiene para:
 - **Documentación de hardware** y esquemas eléctricos
 - **Historial del desarrollo** del sistema RSA
 
-**Para desarrollo activo de acelerógrafos, usar [RSA-Acelerografo](../RSA-Acelerografo/).**
+**Para desarrollo activo de acelerógrafos, usar [RSA-Acelerografo](https://github.com/Red-Sismica-del-Austro/RSA-Acelerografo).**
 
 ## Fuentes de Reloj
 
